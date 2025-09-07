@@ -1,0 +1,138 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+logs/
+*.log.*
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# Mac
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Shell scripts (as requested)
+*.sh
+
+# Postman collections (as requested)
+*.postman_collection.json
+
+# History files (as requested)
+.history/
+**/history/
+**/.history/
+
+# Log files (as requested)
+logs/
+*.log
+**/*.log
+
+# Build errors
+build-error.log
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# OS generated files
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Application specific
+application-local.properties
+application-dev.properties
+application-prod.properties
+
+# Environment variables (IMPORTANT: Keep .env files secret!)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Redis dump files
+dump.rdb
+
+# SQL files (optional - uncomment if you don't want to track them)
+# *.sql
+
+# IDE specific
+.metadata
+.recommenders
