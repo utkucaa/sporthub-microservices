@@ -208,7 +208,7 @@ public class CourtServiceImpl implements CourtService {
     
     @Override
     public List<CourtResponse> searchCourtsByTerm(String searchTerm) {
-        List<Court> courts = courtRepository.searchByTerm(searchTerm);
+        List<Court> courts = courtRepository.findByIsActiveTrueAndNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(searchTerm, searchTerm);
         return courts.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
@@ -244,7 +244,12 @@ public class CourtServiceImpl implements CourtService {
     
     @Override
     public Double getAverageRatingByCourtType(CourtType courtType) {
-        return courtRepository.getAverageRatingByCourtType(courtType);
+        List<Court> courts = courtRepository.findByCourtType(courtType);
+        return courts.stream()
+                .filter(court -> court.getTotalReviews() > 0)
+                .mapToDouble(Court::getRating)
+                .average()
+                .orElse(0.0);
     }
     
     @Override

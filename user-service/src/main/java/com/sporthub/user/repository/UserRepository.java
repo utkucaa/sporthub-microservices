@@ -3,7 +3,6 @@ package com.sporthub.user.repository;
 import com.sporthub.user.model.User;
 import com.sporthub.user.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,7 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     List<User> findByIsActive(Boolean isActive);
     
-    List<User> searchActiveUsers(@Param("searchTerm") String searchTerm);
-    
-    List<User> findActiveUsersByRole(@Param("role") Role role);
+    // Removed unused methods that were causing startup issues
 }
