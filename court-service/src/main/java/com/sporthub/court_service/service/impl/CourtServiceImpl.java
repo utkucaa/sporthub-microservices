@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// saha işlemlerini yöneten ana servis - redis cache ile
 @Service
 @Transactional
 public class CourtServiceImpl implements CourtService {
@@ -33,6 +34,7 @@ public class CourtServiceImpl implements CourtService {
     @Autowired
     private CourtRepository courtRepository;
     
+    // yeni saha oluştur ve cache temizle
     @Override
     @CacheEvict(value = {"courts", "popularCourts"}, allEntries = true)
     public CourtResponse createCourt(CourtCreateRequest request) {

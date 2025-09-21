@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// rezervasyon işlemlerini yöneten rest controller
 @RestController
 @RequestMapping("/api/reservations")
 public class ReservationController {
@@ -21,6 +22,7 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
+    // yeni rezervasyon oluştur
     @PostMapping
     public ResponseEntity<ReservationResponse> create(@Valid @RequestBody CreateReservationRequest request) {
         return ResponseEntity.ok(reservationService.create(request));

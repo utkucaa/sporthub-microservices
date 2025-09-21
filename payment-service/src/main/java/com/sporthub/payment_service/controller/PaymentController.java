@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
+// ödeme işlemlerini yöneten rest controller
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentController {
@@ -29,6 +30,7 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
+    // ödeme niyeti oluştur
     @PostMapping("/create-intent")
     public ResponseEntity<PaymentIntentResponse> createPaymentIntent(
             @Valid @RequestBody PaymentIntentRequest request,

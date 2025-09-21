@@ -25,10 +25,7 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
 
     List<Refund> findByStatus(RefundStatus status);
 
-    BigDecimal getTotalRefundedAmountByPaymentId(@Param("paymentId") Long paymentId);
-
-    List<Refund> findRefundsBetweenDates(@Param("startDate") LocalDateTime startDate, 
-                                        @Param("endDate") LocalDateTime endDate);
+    List<Refund> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 
 
     List<Refund> findByInitiatedByOrderByCreatedAtDesc(String initiatedBy);
@@ -43,5 +40,5 @@ public interface RefundRepository extends JpaRepository<Refund, Long> {
     boolean existsByPaymentIdAndStatus(Long paymentId, RefundStatus status);
 
 
-    List<Refund> findPendingRefundsForProcessing(@Param("cutoffDate") LocalDateTime cutoffDate);
+    List<Refund> findByStatusAndCreatedAtBefore(RefundStatus status, LocalDateTime cutoffDate);
 }

@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+// kimlik doğrulama ve jwt işlemleri
 @Service
 public class AuthService {
     

@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// rezervasyon işlemlerini yöneten ana servis
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
@@ -34,6 +35,7 @@ public class ReservationService {
         this.distributedLock = distributedLock;
     }
 
+    // yeni rezervasyon oluştur - distributed lock ile
     @Transactional
     public ReservationResponse create(CreateReservationRequest request) {
         timeSlotValidator.validateBusinessRules(request.getStartTime(), request.getEndTime());

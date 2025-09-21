@@ -30,7 +30,12 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             "/actuator/",
             "/api/users/register",
             "/api/auth",
-            "/api/auth/"
+            "/api/auth/",
+            "/api/courts",
+            "/api/courts/",
+            "/api/reservations/court",
+            "/api/reservations/bulk-check",
+            "/api/webhooks/health"
     );
 
     @Override

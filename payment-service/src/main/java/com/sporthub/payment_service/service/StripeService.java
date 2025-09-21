@@ -15,17 +15,13 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Map;
 
-/**
- * Service for Stripe API operations
- */
+// stripe api işlemlerini yöneten servis
 @Service
 public class StripeService {
 
     private static final Logger logger = LoggerFactory.getLogger(StripeService.class);
 
-    /**
-     * Create payment intent in Stripe
-     */
+    // stripe'da ödeme niyeti oluştur
     public PaymentIntent createPaymentIntent(BigDecimal amount, String currency, Map<String, String> metadata) throws StripeException {
         try {
             // MOCK/TEST MODE - Create a fake payment intent for testing

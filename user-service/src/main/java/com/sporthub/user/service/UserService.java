@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// kullanıcı işlemlerini yöneten ana servis
 @Service
 @Transactional
 public class UserService {
@@ -29,6 +30,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
+    // yeni kullanıcı oluştur
     public UserResponse createUser(UserRegistrationRequest request) {
         
         if (userRepository.existsByEmail(request.getEmail())) {

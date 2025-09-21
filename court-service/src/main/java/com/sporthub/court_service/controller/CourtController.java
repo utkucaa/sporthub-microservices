@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// saha işlemlerini yöneten rest controller
 @RestController
 @RequestMapping("/api/courts")
 @CrossOrigin(origins = "*")
@@ -23,6 +24,7 @@ public class CourtController {
     @Autowired
     private CourtService courtService;
     
+    // yeni saha oluştur
     @PostMapping
     public ResponseEntity<CourtResponse> createCourt(@Valid @RequestBody CourtCreateRequest request) {
         CourtResponse court = courtService.createCourt(request);

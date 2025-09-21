@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// kullanıcı işlemlerini yöneten rest controller
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
@@ -20,6 +21,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    // yeni kullanıcı kayıt et
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody UserRegistrationRequest request) {
         UserResponse user = userService.createUser(request);

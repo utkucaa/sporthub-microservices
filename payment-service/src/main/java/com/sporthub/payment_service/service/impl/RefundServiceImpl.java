@@ -86,7 +86,7 @@ public class RefundServiceImpl implements RefundService {
             refund = refundRepository.save(refund);
 
             // Update payment status if fully refunded
-            BigDecimal totalRefunded = refundRepository.getTotalRefundedAmountByPaymentId(payment.getId());
+            BigDecimal totalRefunded = calculateTotalRefundedAmount(payment.getId());
             if (totalRefunded.compareTo(payment.getAmount()) >= 0) {
                 paymentService.updatePaymentStatus(payment.getId(), PaymentStatus.REFUNDED);
             }
@@ -201,7 +201,7 @@ public class RefundServiceImpl implements RefundService {
         }
 
         // Check if there's already a full refund
-        BigDecimal totalRefunded = refundRepository.getTotalRefundedAmountByPaymentId(payment.getId());
+        BigDecimal totalRefunded = calculateTotalRefundedAmount(payment.getId());
         if (totalRefunded.compareTo(payment.getAmount()) >= 0) {
             throw new IllegalStateException("Payment has already been fully refunded");
         }
@@ -251,5 +251,12 @@ public class RefundServiceImpl implements RefundService {
             case "canceled" -> RefundStatus.CANCELLED;
             default -> RefundStatus.FAILED;
         };
+    }
+
+    private BigDecimal calculateTotalRefundedAmount(Long paymentId) {
+        List<Refund> successfulRefunds = refundRepository.findByPaymentIdAndStatus(paymentId, RefundStatus.SUCCEEDED);
+        return successfulRefunds.stream()
+                .map(Refund::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

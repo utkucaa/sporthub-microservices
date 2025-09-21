@@ -22,8 +22,7 @@ public interface PaymentWebhookRepository extends JpaRepository<PaymentWebhook, 
     
     List<PaymentWebhook> findByProcessedOrderByCreatedAtDesc(Boolean processed);
 
-    List<PaymentWebhook> findWebhooksBetweenDates(@Param("startDate") LocalDateTime startDate, 
-                                                  @Param("endDate") LocalDateTime endDate);
+    List<PaymentWebhook> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 
     boolean existsByStripeEventIdAndProcessed(String stripeEventId, Boolean processed);
 
@@ -33,9 +32,5 @@ public interface PaymentWebhookRepository extends JpaRepository<PaymentWebhook, 
     
     long countByEventType(String eventType);
 
-    List<PaymentWebhook> findUnprocessedWebhooksOlderThan(@Param("cutoffDate") LocalDateTime cutoffDate);
-
-    List<PaymentWebhook> findFailedWebhooks();
-
-    void deleteOldProcessedWebhooks(@Param("cutoffDate") LocalDateTime cutoffDate);
+    List<PaymentWebhook> findByProcessedAndCreatedAtBefore(Boolean processed, LocalDateTime cutoffDate);
 }

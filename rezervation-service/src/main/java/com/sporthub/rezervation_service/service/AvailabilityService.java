@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+// saha müsaitlik durumunu kontrol eden servis
 @Service
 public class AvailabilityService {
     private final ReservationRepository reservationRepository;
@@ -18,6 +19,7 @@ public class AvailabilityService {
         this.reservationRepository = reservationRepository;
     }
 
+    // belirli gün için saha müsaitliği
     public List<AvailabilitySlotResponse> getCourtAvailability(Long courtId, LocalDate date) {
         LocalDateTime startOfDay = date.atTime(LocalTime.of(6, 0));
         LocalDateTime endOfDay = date.atTime(LocalTime.of(23, 59));

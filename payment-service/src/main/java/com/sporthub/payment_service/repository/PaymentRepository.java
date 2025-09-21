@@ -31,13 +31,10 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findByStatus(PaymentStatus status);
 
     
-    List<Payment> findPaymentsBetweenDates(@Param("startDate") LocalDateTime startDate, 
-                                          @Param("endDate") LocalDateTime endDate);
+    List<Payment> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 
     
-    List<Payment> findByUserIdAndDateRange(@Param("userId") Long userId,
-                                          @Param("startDate") LocalDateTime startDate,
-                                          @Param("endDate") LocalDateTime endDate);
+    List<Payment> findByUserIdAndCreatedAtBetween(Long userId, LocalDateTime startDate, LocalDateTime endDate);
 
     long countByStatus(PaymentStatus status);
     
@@ -45,5 +42,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     boolean existsByReservationId(Long reservationId);
 
-    List<Payment> findFailedPaymentsForRetry(@Param("cutoffDate") LocalDateTime cutoffDate);
+    List<Payment> findByStatusInAndUpdatedAtBefore(List<PaymentStatus> statuses, LocalDateTime cutoffDate);
 }

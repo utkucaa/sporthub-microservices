@@ -31,9 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Implementation of PaymentService
- */
+// ödeme işlemlerini yöneten ana servis
 @Service
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
@@ -58,23 +56,21 @@ public class PaymentServiceImpl implements PaymentService {
         this.userServiceClient = userServiceClient;
     }
 
+    // ödeme niyeti oluştur - stripe entegrasyonu
     @Override
     public PaymentIntentResponse createPaymentIntent(PaymentIntentRequest request, Long userId) {
         try {
             logger.info("Creating payment intent: reservationId={}, userId={}, amount={}", 
                        request.getReservationId(), userId, request.getAmount());
 
-            // Check if payment already exists for this reservation
             if (paymentRepository.existsByReservationId(request.getReservationId())) {
                 throw new IllegalStateException("Payment already exists for reservation: " + request.getReservationId());
             }
 
-            // Create payment entity
             Payment payment = new Payment(request.getReservationId(), userId, 
                                         request.getAmount(), request.getCurrency());
             payment = paymentRepository.save(payment);
 
-            // Create metadata for Stripe
             Map<String, String> metadata = new HashMap<>();
             metadata.put("payment_id", payment.getId().toString());
             metadata.put("reservation_id", request.getReservationId().toString());
@@ -83,16 +79,13 @@ public class PaymentServiceImpl implements PaymentService {
                 metadata.putAll(request.getMetadata());
             }
 
-            // Create payment intent in Stripe
             PaymentIntent stripePaymentIntent = stripeService.createPaymentIntent(
                 request.getAmount(), request.getCurrency(), metadata);
 
-            // Update payment with Stripe payment intent ID
             payment.setStripePaymentIntentId(stripePaymentIntent.getId());
             payment.setStatus(PaymentStatus.PROCESSING);
             payment = paymentRepository.save(payment);
 
-            // Publish payment initiated event
             PaymentEvent paymentEvent = createPaymentEvent(payment);
             paymentEventProducer.publishPaymentInitiated(paymentEvent);
 
@@ -114,6 +107,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    // rezervasyon için otomatik ödeme oluştur
     @Override
     public void createPaymentIntentForReservation(ReservationEvent reservationEvent) {
         try {
@@ -135,13 +129,13 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    // ödemeyi onayla ve tamamla
     @Override
     public PaymentResponse confirmPayment(PaymentConfirmRequest request, Long userId) {
         try {
             logger.info("Confirming payment: paymentIntentId={}, userId={}", 
                        request.getPaymentIntentId(), userId);
 
-            // Get payment by Stripe payment intent ID
             Payment payment = paymentRepository.findByStripePaymentIntentId(request.getPaymentIntentId())
                 .orElseThrow(() -> new PaymentNotFoundException("Payment not found for intent: " + request.getPaymentIntentId()));
 
