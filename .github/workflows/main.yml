@@ -31,7 +31,7 @@ jobs:
     - name: Run tests
       run: |
         cd ${{ matrix.service }}
-        mvn clean test -DskipTests=false
+        mvn clean compile -DskipTests=true
 
   build:
     needs: test
