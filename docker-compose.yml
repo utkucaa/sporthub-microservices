@@ -76,9 +76,10 @@ services:
       MYSQL_USER: ${MYSQL_USER:-sporthub_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-userpass}
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./init-database.sql:/docker-entrypoint-initdb.d/init-database.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -91,11 +92,11 @@ services:
     image: ${DOCKER_USERNAME:-local}/sporthub-eureka-server:latest
     container_name: eureka-server
     ports:
-      - "8761:8761"
+      - "8763:8762"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -105,10 +106,10 @@ services:
     image: ${DOCKER_USERNAME:-local}/sporthub-api-gateway:latest
     container_name: api-gateway
     ports:
-      - "8080:8080"
+      - "8090:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8762/eureka
     depends_on:
       eureka-server:
         condition: service_healthy
@@ -118,10 +119,10 @@ services:
     image: ${DOCKER_USERNAME:-local}/sporthub-user-service:latest
     container_name: user-service
     ports:
-      - "8081:8081"
+      - "9081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8762/eureka
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-sporthub_db}
       - SPRING_DATASOURCE_USERNAME=${MYSQL_USER:-sporthub_user}
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:-userpass}
@@ -139,10 +140,10 @@ services:
     image: ${DOCKER_USERNAME:-local}/sporthub-court-service:latest
     container_name: court-service
     ports:
-      - "8082:8082"
+      - "9082:8082"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8762/eureka
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-sporthub_db}
       - SPRING_DATASOURCE_USERNAME=${MYSQL_USER:-sporthub_user}
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:-userpass}
@@ -157,10 +158,10 @@ services:
     image: ${DOCKER_USERNAME:-local}/sporthub-rezervation-service:latest
     container_name: rezervation-service
     ports:
-      - "8083:8083"
+      - "9083:8083"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8762/eureka
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-sporthub_db}
       - SPRING_DATASOURCE_USERNAME=${MYSQL_USER:-sporthub_user}
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:-userpass}
@@ -178,10 +179,10 @@ services:
     image: ${DOCKER_USERNAME:-local}/sporthub-payment-service:latest
     container_name: payment-service
     ports:
-      - "8084:8084"
+      - "9084:8084"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8762/eureka
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-sporthub_db}
       - SPRING_DATASOURCE_USERNAME=${MYSQL_USER:-sporthub_user}
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:-userpass}
@@ -199,10 +200,10 @@ services:
     image: ${DOCKER_USERNAME:-local}/sporthub-notification-service:latest
     container_name: notification-service
     ports:
-      - "8085:8085"
+      - "9085:8085"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8762/eureka
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       eureka-server:
