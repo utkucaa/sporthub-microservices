@@ -1,4 +1,4 @@
-package com.sporthub.user_service;
+package com.sporthub.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
