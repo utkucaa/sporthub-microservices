@@ -52,8 +52,8 @@ jobs:
     
     - name: Build and push images
       run: |
-        docker-compose build
-        docker-compose push
+        docker compose build
+        docker compose push
 
   deploy:
     needs: build
